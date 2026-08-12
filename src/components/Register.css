@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght=400;600;700;800&display=swap');
+
+.register-container {
+  font-family: 'Cairo', sans-serif;
+  background-color: #c8d6b7; 
+  min-height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 20px 50px;
+  direction: rtl;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.register-container::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulseGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.95); }
+  100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+.register-box {
+  width: 800px; 
+  max-width: 100%;
+  background: #3b562c;
+  border-radius: 24px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(25px);
+  margin-top: 24px;
+
+  border: 2px solid rgba(240, 168, 92, 0.811);
+  
+  box-shadow: 
+    0 12px 32px rgba(34, 50, 24, 0.3),
+    0 0 15px rgba(240, 168, 92, 0.652),   
+    0 0 35px rgba(217, 130, 43, 0.54),  
+    inset 0 0 15px rgba(240, 168, 92, 0.323); 
+  
+  animation: boxEntry 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes boxEntry {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(-18px); }
+}
+
+.register-brand-section {
+  flex: 1;
+  background: #ffffff;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.register-logo {
+  width: 310px; 
+  max-width: 90%;
+  height: auto;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.08));
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.brand-statement h3 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  color: #223218; 
+}
+
+.brand-statement p {
+  font-size: 14px;
+  color: #3b562c; 
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0 auto;
+  font-weight: 600;
+}
+
+.register-form-section {
+  flex: 1.1;
+  padding: 40px 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #3b562c;
+  position: relative;
+}
+
+.register-header h2 {
+  font-size: 30px;
+  color: #ffffff;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.register-header p {
+  font-size: 13.5px;
+  color: #eef4e8;
+  margin-bottom: 28px;
+  font-weight: 600;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-group input:focus {
+  border-color: #f0a85c;
+  background-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 12px rgba(240, 168, 92, 0.4);
+}
+
+.btn-submit-register {
+  margin-top: 8px;
+  background-color: #d9822b; 
+  color: #ffffff;
+  border: none;
+  padding: 13px;
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(217, 130, 43, 0.35);
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-submit-register:hover {
+  background-color: #e08e38;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217, 130, 43, 0.5);
+}
+
+/* رابط تسجيل الدخول السفلي */
+.login-link-text {
+  margin-top: 20px;
+  font-size: 13px;
+  color: #eef4e8;
+  text-align: center;
+}
+
+.login-link-text a {
+  color: #f0a85c;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.login-link-text a:hover {
+  color: #ffffff;
+}
+
+/* شريط التنبيه عند النجاح */
+.success-banner {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #a7f3d0;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+@media (max-width: 800px) {
+  .register-box {
+    flex-direction: column;
+    border-radius: 18px;
+    margin-top: 0;
+  }
+  .register-brand-section {
+    padding: 30px 20px;
+    border-left: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .register-logo {
+    width: 220px;
+  }
+  .register-form-section {
+    padding: 30px 20px;
+  }
+}

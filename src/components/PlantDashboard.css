@@ -1,0 +1,847 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap');
+
+:root {
+  /* Color Palette - Olive Theme */
+  --olive-primary: #3b562c;
+  --olive-dark: #2a3e1f;
+  --olive-deep: #16220f;
+  --olive-light: #dbe4d0;
+  --olive-subtle: #f2f6ee;
+  
+  /* Text Colors */
+  --text-dark: #16220f;
+  --text-muted: #4a5d3f;
+  --text-light: #ffffff;
+  
+  /* Reminders Color Palette */
+  --water-bg: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  --water-text: #0369a1;
+  --water-border: #7dd3fc;
+
+  --fert-bg: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  --fert-text: #15803d;
+  --fert-border: #86efac;
+  
+  /* Glassmorphism & Borders */
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-border-dark: rgba(34, 50, 24, 0.12);
+  
+  /* Shadows */
+  --shadow-sm: 0 4px 12px rgba(22, 34, 15, 0.05);
+  --shadow-md: 0 10px 25px rgba(22, 34, 15, 0.1);
+  --shadow-lg: 0 20px 40px rgba(22, 34, 15, 0.18);
+  --shadow-glow: 0 0 20px rgba(59, 86, 44, 0.35);
+
+  /* Radius & Transitions */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Wrapper */
+.dash-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 40px 5%;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, #e4ebd9 0%, #c8d6b7 100%);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.dash-section {
+  max-width: 1400px;
+  margin: 0 auto 48px auto;
+  width: 100%;
+}
+
+.section-header h2 {
+  font-size: 1.85rem;
+  color: var(--olive-deep);
+  margin: 0 0 6px 0;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.section-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0 0 24px 0;
+  font-weight: 600;
+}
+
+/* Loading & Empty State */
+.dash-loading {
+  text-align: center;
+  padding: 80px 0;
+  color: var(--olive-primary);
+  font-weight: 700;
+}
+
+.dash-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--glass-border);
+  border-top-color: var(--olive-primary);
+  border-radius: var(--radius-full);
+  animation: spin 0.8s cubic-bezier(0.6, 0.2, 0.1, 1) infinite;
+  margin: 0 auto 20px auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.dash-empty-card {
+  background: var(--glass-bg);
+  border: 2px dashed var(--olive-primary);
+  padding: 48px 24px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: var(--olive-deep);
+  font-size: 1.05rem;
+  font-weight: 700;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+}
+
+.horizontal-scroll-container {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 12px 6px 28px 6px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-full);
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--olive-primary);
+  border-radius: var(--radius-full);
+}
+
+/* كرت النبتة */
+.my-plant-chip-card {
+  flex: 0 0 260px;
+  background: var(--olive-primary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.my-plant-chip-card:hover {
+  transform: translateY(-8px);
+  background: var(--olive-dark);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.chip-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 185px;
+  background-color: var(--olive-dark);
+  overflow: hidden;
+}
+
+.chip-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.my-plant-chip-card:hover .chip-img-wrapper img {
+  transform: scale(1.08);
+}
+
+.chip-status-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--olive-deep);
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-sm);
+}
+
+.chip-details {
+  padding: 18px 16px;
+  text-align: center;
+}
+
+.chip-details h4 {
+  margin: 0 0 8px 0;
+  font-size: 1.15rem;
+  color: var(--text-light);
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip-action {
+  font-size: 0.85rem;
+  color: var(--olive-light);
+  font-weight: 700;
+  opacity: 0.95;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+/* ==========================================
+   🔔 2. قسم التنبيهات
+   ========================================== */
+.reminders-section {
+  background: var(--glass-bg);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-sm);
+}
+
+.reminders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 22px;
+  margin-top: 15px;
+}
+
+.reminder-card {
+  background: #ffffff;
+  border: 1px solid #dbe4d0;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(22, 34, 15, 0.04);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.reminder-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--olive-primary);
+}
+
+.reminder-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #e2ebd9;
+}
+
+.reminder-plant-thumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--olive-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.reminder-plant-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  color: var(--olive-deep);
+  font-weight: 800;
+}
+
+.reminder-badge {
+  font-size: 0.75rem;
+  background: var(--olive-subtle);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  color: var(--olive-primary);
+  font-weight: 800;
+  border: 1px solid var(--olive-light);
+}
+
+.reminder-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reminder-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.water-item {
+  background: var(--water-bg);
+  color: var(--water-text);
+  border: 1px solid var(--water-border);
+}
+
+.fert-item {
+  background: var(--fert-bg);
+  color: var(--fert-text);
+  border: 1px solid var(--fert-border);
+}
+
+.reminder-icon {
+  font-size: 1.3rem;
+}
+
+.reminder-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.reminder-label {
+  font-size: 0.78rem;
+  opacity: 0.88;
+  font-weight: 700;
+}
+
+.reminder-date {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+/* ==========================================
+   🌱 3. الكاتالوج وإضافة النباتات
+   ========================================== */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.catalog-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.catalog-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-md);
+}
+
+.catalog-img-box {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+}
+
+.catalog-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.catalog-card:hover .catalog-img-box img {
+  transform: scale(1.05);
+}
+
+.catalog-info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.catalog-info h4 {
+  margin: 0 0 14px 0;
+  font-size: 0.95rem;
+  color: var(--olive-deep);
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.catalog-add-btn {
+  background-color: var(--olive-primary);
+  color: var(--text-light);
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.catalog-add-btn:hover {
+  background-color: var(--olive-dark);
+  box-shadow: 0 4px 12px rgba(42, 62, 31, 0.3);
+}
+
+.catalog-add-btn.added {
+  background-color: rgba(22, 34, 15, 0.1) !important;
+  color: var(--text-muted) !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* ==========================================
+   🔍 4 & 5. المودال والنوافذ المنبثقة
+   ========================================== */
+.dash-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 10, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dash-modal-content {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 32px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(22, 34, 15, 0.25);
+  border: 1px solid var(--glass-border);
+  direction: rtl;
+  animation: modalUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalUp {
+  from { transform: translateY(20px) scale(0.97); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.dash-modal-content.mega-modal {
+  max-width: 840px;
+  background: #fafcf8;
+}
+
+.dash-modal-content.add-modal {
+  max-width: 480px;
+}
+
+.dash-modal-close {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #eef2eb;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--olive-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.dash-modal-close:hover {
+  background: #e63946;
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+/* 🌿 هيدر المودال والاسم العلمي بعد تطبيق ألوان وتنسيقات كروت الأمراض والوقاية تماماً */
+.modal-header-info {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e2ebd9;
+}
+
+.modal-header-info h3 {
+  margin: 0 0 14px 0;
+  color: var(--olive-deep);
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+
+/* الاسم العلمي: نفس لون الوقاية والدرجة الخضراء */
+.sci-tag {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #f7fbf4 0%, #edf7e7 100%);
+  color: #2f3e46;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-style: italic;
+  border: 1px solid #c7e0d6;
+  border-right: 5px solid #52796f; /* نفس خط كروت الوقاية الجانبي */
+  margin-left: 10px;
+  margin-top: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+/* العائلة: نفس لون الأزرق الفاتح الجانبي */
+.sci-tag.family-tag {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  border-right: 5px solid #0284c7; /* حد أزرق جانبي مميز */
+  font-style: normal;
+}
+
+.modal-grid-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.modal-card-box {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  border: 1px solid #e5ebd9;
+  box-shadow: 0 4px 15px rgba(22, 34, 15, 0.03);
+  transition: var(--transition);
+}
+
+.modal-card-box.full-width {
+  grid-column: 1 / -1;
+}
+
+.modal-card-box h4 {
+  margin: 0 0 12px 0;
+  color: var(--olive-deep);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.details-list p {
+  margin: 10px 0;
+  font-size: 0.92rem;
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+.details-list strong {
+  color: var(--olive-deep);
+}
+
+.highlight-blue {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-right: 5px solid #0284c7;
+  border-top: 1px solid #bae6fd;
+}
+
+.highlight-blue h4 {
+  color: #0369a1;
+}
+
+.highlight-green {
+  background: linear-gradient(135deg, #f7fbf4 0%, #edf7e7 100%);
+  border-right: 5px solid #52796f;
+  border-top: 1px solid #c7e0d6;
+}
+
+.highlight-green h4 {
+  color: #2f3e46;
+}
+
+.highlight-soil {
+  background: linear-gradient(135deg, #fffcf0 0%, #fef3c7 100%);
+  border-right: 5px solid #d97706;
+  border-top: 1px solid #fde68a;
+}
+
+.highlight-soil h4 {
+  color: #92400e;
+}
+
+/* ==========================================
+   🖼️ صور وأقسام الأمراض
+   ========================================== */
+.dashboard-diseases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 15px;
+}
+
+.dashboard-disease-card {
+  background: var(--olive-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  border: 1px solid #dbe4d0;
+  border-top: 4px solid var(--olive-primary);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-disease-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.dashboard-disease-card img.disease-image,
+.mega-modal .dashboard-disease-card img {
+  display: block !important;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  border: 1px solid var(--glass-border-dark);
+}
+
+.disease-placeholder {
+  width: 100%;
+  height: 180px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8faf5, #edf4e6);
+  border: 2px dashed #b8c8a9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #5c6f50;
+  margin-bottom: 14px;
+}
+
+.disease-placeholder span {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* عنوان المرض */
+.dashboard-disease-card h5 {
+  margin: 0 0 12px 0;
+  color: var(--olive-deep);
+  font-size: 1.25rem;
+  font-weight: 900;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--olive-light);
+}
+
+/* تفاصيل كرت المرض */
+.disease-info-box p {
+  background: #ffffff;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  margin: 10px 0;
+  color: var(--text-dark);
+  font-size: 1rem;
+  line-height: 1.65;
+  border: 1px solid rgba(59, 86, 44, 0.08);
+}
+
+.disease-info-box strong {
+  color: var(--olive-primary);
+  font-weight: 800;
+}
+
+/* Forms & Inputs */
+.add-plant-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--olive-deep);
+}
+
+.form-group input,
+.form-group select {
+  padding: 14px 16px;
+  border: 1.5px solid var(--glass-border-dark);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  outline: none;
+  background: #ffffff;
+  font-family: 'Cairo', sans-serif;
+  transition: var(--transition);
+  color: var(--text-dark);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--olive-primary);
+  box-shadow: 0 0 0 4px rgba(59, 86, 44, 0.12);
+}
+
+.form-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.confirm-add-btn, .cancel-add-btn {
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+}
+
+.confirm-add-btn {
+  flex: 2;
+  background-color: var(--olive-primary);
+  color: var(--text-light);
+  box-shadow: 0 4px 15px rgba(59, 86, 44, 0.3);
+}
+
+.confirm-add-btn:hover {
+  background-color: var(--olive-dark);
+  transform: translateY(-2px);
+}
+
+.cancel-add-btn {
+  flex: 1;
+  background-color: var(--olive-subtle);
+  color: var(--olive-deep);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dash-wrapper {
+    padding: 24px 16px;
+  }
+  
+  .catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+  }
+
+  .my-plant-chip-card {
+    flex: 0 0 220px;
+  }
+
+  .reminders-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-diseases-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modal-card-box.modal-delete-footer {
+  background: linear-gradient(135deg, #fff5f5 0%, #ffeaf0 100%) !important;
+  border: 1.5px solid #fecdd3 !important;
+  border-radius: 16px !important;
+  padding: 16px 20px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 15px !important;
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.05) !important;
+}
+
+.delete-plant-btn {
+  width: auto;
+  min-width: 200px;
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: #ffffff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
+  letter-spacing: 0.3px;
+}
+
+.delete-plant-btn .btn-icon {
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.delete-plant-btn:hover {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  box-shadow: 0 6px 20px rgba(225, 29, 72, 0.5);
+  transform: translateY(-2px);
+}
+
+.delete-plant-btn:hover .btn-icon {
+  transform: scale(1.15) rotate(-8deg);
+}
+
+.delete-plant-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.3);
+}
+
+.delete-plant-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  background: #cbd5e1;
+  box-shadow: none;
+}

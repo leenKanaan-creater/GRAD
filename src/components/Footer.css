@@ -1,0 +1,123 @@
+.site-footer {
+  margin-top: auto;
+  background: #3b562c; 
+  color: #ffffff;
+  direction: rtl;
+  font-family: "Cairo", sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 -10px 25px rgba(34, 50, 24, 0.15);
+}
+
+.footer-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 48px 0 34px;
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.footer-brand img {
+  width: 150px;
+  height: 120px;
+  object-fit: contain;
+  padding: 8px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.footer-brand h2,
+.footer-links-group h3 {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.footer-brand h2 {
+  font-size: 24px;
+}
+
+.footer-brand p,
+.footer-note p {
+  margin: 0;
+  color: #e8f0e3; 
+  line-height: 1.9;
+  font-size: 14px;
+}
+
+.footer-links-group h3 {
+  font-size: 17px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  width: fit-content;
+  color: #e8f0e3;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  font-weight: 600;
+}
+
+.footer-links a:hover {
+  color: #d97706;
+  transform: translateX(-4px);
+}
+
+.footer-note {
+  display: flex;
+  gap: 13px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08); 
+  backdrop-filter: blur(8px);
+}
+
+.footer-note-icon {
+  font-size: 24px;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  background: #2d4322;
+  text-align: center;
+  padding: 16px 20px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #c8d6b7;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (max-width: 850px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer-brand {
+    align-items: flex-start;
+  }
+
+  .footer-brand img {
+    width: 72px;
+    height: 72px;
+  }
+}

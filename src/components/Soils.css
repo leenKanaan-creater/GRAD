@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap');
+
+.soils-page-container {
+  font-family: 'Cairo', sans-serif;
+  background-color: #fafdfa; /* خلفية خفيفة وباردة */
+  min-height: 100vh;
+  padding: 60px 20px;
+  direction: rtl;
+}
+
+/* مقدمة الصفحة */
+.soils-hero-section {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 50px auto;
+}
+
+.hero-badge {
+  font-size: 11px;
+  font-weight: 800;
+  color: #6e8649;
+  letter-spacing: 1.5px;
+  background-color: #ecf3e6;
+  padding: 6px 14px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.soils-hero-section h1 {
+  font-size: 32px;
+  color: #0d330e;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+}
+
+.soils-hero-section p {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+/* شبكة عرض البطاقات */
+.soils-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+/* بطاقة التربة الفخمة */
+.soil-premium-card {
+  background: #ffffff;
+  border: 1px solid #e9f0e6;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(13, 51, 14, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.soil-premium-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(13, 51, 14, 0.05);
+}
+
+.soil-card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.soil-avatar {
+  width: 55px;
+  height: 55px;
+  background-color: #f5ece3;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.soil-title-area h2 {
+  font-size: 20px;
+  color: #0d330e;
+  font-weight: 700;
+  margin: 0;
+}
+
+.soil-tag {
+  font-size: 11px;
+  background: #f1f5f0;
+  color: #4b663b;
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.soil-description {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background-color: #f0f4ee;
+  margin: 20px 0;
+}
+
+/* مؤشر الـ pH المبتكر */
+.ph-indicator-box {
+  background: #fbfdfa;
+  padding: 15px;
+  border-radius: 14px;
+  border: 1px solid #f1f6ef;
+}
+
+.ph-title {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #0d330e;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.ph-range {
+  color: #6e8649;
+}
+
+.ph-bar-container {
+  width: 100%;
+  height: 6px;
+  background: #e2ebd9;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.ph-bar-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #a7f3d0, #059669);
+  border-radius: 10px;
+}
+
+.ph-note {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* شبكة الخصائص الأربعة */
+.soil-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.spec-tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fafdf9;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #f2f7ef;
+}
+
+.spec-icon {
+  font-size: 20px;
+}
+
+.spec-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.spec-label {
+  font-size: 10px;
+  color: #8da37f;
+  font-weight: 600;
+}
+
+.spec-value {
+  font-size: 13px;
+  color: #0d330e;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+/* شاشة التحميل الدائرية */
+.soils-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  font-family: 'Cairo', sans-serif;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2ebd9;
+  border-top-color: #0d330e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
