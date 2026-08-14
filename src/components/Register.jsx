@@ -7,26 +7,74 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate(); 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const newUser = { name, email, password };
-    
-    localStorage.setItem("user", JSON.stringify(newUser));
-    
-    setMessage("تم إنشاء حسابكِ بنجاح! جاري تحويلكِ لصفحة الدخول... 🎉");
-    
-    setName("");
-    setEmail("");
-    setPassword("");
+    setMessage("");
+    setError("");
 
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
+    // 1. التحقق من الحد الأدنى لطول كلمة المرور (6 حروف)
+    if (password.length < 6) {
+      setError("كلمة المرور يجب أن تكون 6 أحرف أو أرقام على الأقل! ❌");
+      return;
+    }
+
+    // 2. التحقق من تطابق كلمة المرور محلياً
+    if (password !== confirmPassword) {
+      setError("كلمتا المرور غير متطابقتين! ❌");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // 3. إرسال البيانات مع إرفاق حقل التأكيد للباك إند
+      const response = await fetch("https://graduation-project-co5p.onrender.com/api/v1/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+          passwordConfirm: confirmPassword, // حقل التأكيد المطلوب من قبل الـ Validator
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 
+          data.errors?.[0]?.msg || 
+          "حدث خطأ أثناء إنشاء الحساب"
+        );
+      }
+
+      setMessage("تم إنشاء الحساب بنجاح! جاري التحويل لصفحة الدخول... 🎉");
+      
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+
+    } catch (err) {
+      setError(err.message || "تعذر الاتصال بالسيرفر!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,17 +85,19 @@ const Register = () => {
           <img src={logo} alt="فلورا كير - Flora Care" className="register-logo" />
           <div className="brand-statement">
             <h3>منصة فلورا كير</h3>
-            <p>مساحتك الخاصة والمبسطة لتعلم رعاية نباتاتك</p>
+            <p>المساحة الخاصة والمبسطة لتعلم رعاية النباتات</p>
           </div>
         </div>
 
         <div className="register-form-section">
           <div className="register-header">
             <h2>إنشاء حساب جديد</h2>
-            <p>أدخلي البيانات التالية لإنشاء حسابك الشخصي</p>
+            <p>أدخل البيانات التالية لإنشاء الحساب الشخصي</p>
           </div>
 
+          {/* تنبيه النجاح والخطأ */}
           {message && <div className="success-banner">{message}</div>}
+          {error && <div className="error-banner" style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
 
           <form onSubmit={handleSubmit} className="register-form">
             
@@ -57,7 +107,7 @@ const Register = () => {
               <input 
                 type="text" 
                 id="name" 
-                placeholder="مثال: سارة أحمد" 
+                placeholder="مثال: أحمد محمد" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required 
@@ -83,20 +133,33 @@ const Register = () => {
               <input 
                 type="password" 
                 id="password" 
-                placeholder="أدخلي كلمة مرور قوية" 
+                placeholder="أدخل كلمة مرور قوية" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required 
               />
             </div>
 
-            <button type="submit" className="btn-submit-register">
-              إنشاء الحساب
+            {/* تأكيد كلمة المرور */}
+            <div className="form-group">
+              <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
+              <input 
+                type="password" 
+                id="confirmPassword" 
+                placeholder="أعد إدخال كلمة المرور" 
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required 
+              />
+            </div>
+
+            <button type="submit" className="btn-submit-register" disabled={loading}>
+              {loading ? "جاري إنشاء الحساب..." : "إنشاء الحساب"}
             </button>
           </form>
 
           <p className="login-link-text">
-            لديكِ حساب بالفعل؟ <Link to="/login">تسجيل الدخول</Link>
+            يوجد حساب بالفعل؟ <Link to="/login">تسجيل الدخول</Link>
           </p>
         </div>
 
