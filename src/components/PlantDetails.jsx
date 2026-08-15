@@ -162,10 +162,6 @@ const PlantDetails = () => {
           <span className="btn-icon">🍃</span>
         </button>
 
-        <button className="follow-plant-button">
-          <span>أضف إلى نباتاتي</span>
-          <span className="btn-icon">🌱</span>
-        </button>
       </div>
 
       {/* Modal الأصناف ويحتوي على الصور */}

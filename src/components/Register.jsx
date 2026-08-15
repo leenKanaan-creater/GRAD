@@ -20,13 +20,11 @@ const Register = () => {
     setMessage("");
     setError("");
 
-    // 1. التحقق من الحد الأدنى لطول كلمة المرور (6 حروف)
     if (password.length < 6) {
       setError("كلمة المرور يجب أن تكون 6 أحرف أو أرقام على الأقل! ❌");
       return;
     }
 
-    // 2. التحقق من تطابق كلمة المرور محلياً
     if (password !== confirmPassword) {
       setError("كلمتا المرور غير متطابقتين! ❌");
       return;
@@ -35,7 +33,6 @@ const Register = () => {
     setLoading(true);
 
     try {
-      // 3. إرسال البيانات مع إرفاق حقل التأكيد للباك إند
       const response = await fetch("https://graduation-project-co5p.onrender.com/api/v1/auth/signup", {
         method: "POST",
         headers: {
@@ -45,7 +42,7 @@ const Register = () => {
           name: name,
           email: email,
           password: password,
-          passwordConfirm: confirmPassword, // حقل التأكيد المطلوب من قبل الـ Validator
+          passwordConfirm: confirmPassword,
         }),
       });
 
@@ -59,16 +56,25 @@ const Register = () => {
         );
       }
 
-      setMessage("تم إنشاء الحساب بنجاح! جاري التحويل لصفحة الدخول... 🎉");
+      // 💡 إضافة جوهرية: حفظ التوكن والبيانات فوراً إذا أرجعتها استجابة السيرفر
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+      if (data.data) {
+        localStorage.setItem("user", JSON.stringify(data.data));
+      }
+
+      setMessage("تم إنشاء الحساب بنجاح! جاري التوجيه... 🎉");
       
       setName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
 
+      // التوجيه المباشر لصفحة النباتات أو تسجيل الدخول
       setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+        navigate(data.token ? "/plants" : "/login");
+      }, 1500);
 
     } catch (err) {
       setError(err.message || "تعذر الاتصال بالسيرفر!");
@@ -95,13 +101,11 @@ const Register = () => {
             <p>أدخل البيانات التالية لإنشاء الحساب الشخصي</p>
           </div>
 
-          {/* تنبيه النجاح والخطأ */}
           {message && <div className="success-banner">{message}</div>}
           {error && <div className="error-banner" style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
 
           <form onSubmit={handleSubmit} className="register-form">
             
-            {/* حقل الاسم */}
             <div className="form-group">
               <label htmlFor="name">الاسم الكامل</label>
               <input 
@@ -114,7 +118,6 @@ const Register = () => {
               />
             </div>
 
-            {/* البريد الإلكتروني */}
             <div className="form-group">
               <label htmlFor="email">البريد الإلكتروني</label>
               <input 
@@ -127,7 +130,6 @@ const Register = () => {
               />
             </div>
 
-            {/* كلمة المرور */}
             <div className="form-group">
               <label htmlFor="password">كلمة المرور</label>
               <input 
@@ -140,7 +142,6 @@ const Register = () => {
               />
             </div>
 
-            {/* تأكيد كلمة المرور */}
             <div className="form-group">
               <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
               <input 

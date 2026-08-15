@@ -33,9 +33,7 @@ const PlantDashboard = () => {
     loadDashboardData();
   }, []);
 
-  /**
-   * دالة مساعدة مرنة لاستخراج رابط الصورة
-   */
+ 
   const getImageUrl = (imgSource) => {
     if (!imgSource) return null;
     if (typeof imgSource === "string") return imgSource;
@@ -209,7 +207,7 @@ const PlantDashboard = () => {
   // دالة حذف النبتة
   const handleDeletePlant = async (userPlantId) => {
     const confirmDelete = window.confirm(
-      "هل أنتِ متأكدة من إزالة هذه النبتة من حديقتكِ؟",
+      "هل أنت متأكدة من إزالة هذه النبتة من حديقتكِ؟",
     );
     if (!confirmDelete) return;
 
@@ -247,7 +245,7 @@ const PlantDashboard = () => {
         <div className="section-header">
           <h2>🪴 نباتاتي ({userPlants.length})</h2>
           <p className="section-subtitle">
-            اضغطي على أي نبتة لمشاهدة الجدول المحسوب ودراسة التربة والأمراض
+            اضغط على أي نبتة لمشاهدة الجدول المحسوب ودراسة التربة والأمراض
             كاملة
           </p>
         </div>

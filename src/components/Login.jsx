@@ -6,11 +6,48 @@ import "./Login.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/plants");
+    setError("");
+    setLoading(true);
+
+    try {
+      // 1. إرسال بيانات الدخول إلى سيرفر Render
+      const response = await fetch("https://graduation-project-co5p.onrender.com/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "البريد الإلكتروني أو كلمة المرور غير صحيحة");
+      }
+
+      // 2. حفظ التوكن وبيانات المستخدم بالـ LocalStorage
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+      if (data.data) {
+        localStorage.setItem("user", JSON.stringify(data.data));
+      }
+
+      // 3. التوجيه لصفحة النباتات بعد النجاح
+      navigate("/plants");
+
+    } catch (err) {
+      setError(err.message || "تعذر الاتصال بالسيرفر!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -19,7 +56,6 @@ const Login = () => {
         <div className="login-brand-section">
           <img src={logo} alt="فلورا كير - Flora Care" className="login-logo" />
           <div className="brand-statement">
-            
             <p>مساحتكِ الخاصة لتعلم رعاية نباتاتكِ ومتابعتها.</p>
           </div>
         </div>
@@ -29,6 +65,9 @@ const Login = () => {
             <h2>تسجيل الدخول</h2>
             <p>الرجاء إدخال بيانات حسابكِ للمتابعة ورعاية نباتاتكِ</p>
           </div>
+
+          {/* تنبيه الخطأ عند فشل الدخول */}
+          {error && <div className="error-banner" style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
 
           <form onSubmit={handleSubmit} className="login-form">
             {/* حقل البريد الإلكتروني */}
@@ -62,9 +101,9 @@ const Login = () => {
               />
             </div>
 
-            {/* زر الدخول المباشر */}
-            <button type="submit" className="btn-submit-login">
-              تسجيل الدخول
+            {/* زر الدخول */}
+            <button type="submit" className="btn-submit-login" disabled={loading}>
+              {loading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
             </button>
           </form>
 
