@@ -176,3 +176,31 @@
   .nav-links { display: none; } 
   .search-wrapper.active { width: 180px; }
 }
+/* تنسيق الزر الصغير ومستعرض اسم المستخدم */
+.user-profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.welcome-user {
+  font-size: 0.85rem;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.logout-btn-small {
+  background-color: transparent;
+  color: #e53935;
+  border: 1px solid #e53935;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.logout-btn-small:hover {
+  background-color: #e53935;
+  color: #ffffff;
+}
