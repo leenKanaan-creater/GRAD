@@ -56,24 +56,20 @@ const Register = () => {
         );
       }
 
-      // 💡 إضافة جوهرية: حفظ التوكن والبيانات فوراً إذا أرجعتها استجابة السيرفر
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
-      if (data.data) {
-        localStorage.setItem("user", JSON.stringify(data.data));
-      }
+      // 1. تنظيف أي بيانات سابقة من الذاكرة للبدء بحساب نظيف
+      localStorage.clear();
+      sessionStorage.clear();
 
-      setMessage("تم إنشاء الحساب بنجاح! جاري التوجيه... 🎉");
+      setMessage("تم إنشاء الحساب بنجاح! جاري التوجيه لصفحة تسجيل الدخول... 🎉");
       
       setName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
 
-      // التوجيه المباشر لصفحة النباتات أو تسجيل الدخول
+      // 2. التوجيه المباشر إلى صفحة تسجيل الدخول أولاً
       setTimeout(() => {
-        navigate(data.token ? "/plants" : "/login");
+        navigate("/login");
       }, 1500);
 
     } catch (err) {
@@ -101,7 +97,7 @@ const Register = () => {
             <p>أدخل البيانات التالية لإنشاء الحساب الشخصي</p>
           </div>
 
-          {message && <div className="success-banner">{message}</div>}
+          {message && <div className="success-banner" style={{ color: "green", marginBottom: "10px" }}>{message}</div>}
           {error && <div className="error-banner" style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
 
           <form onSubmit={handleSubmit} className="register-form">
@@ -111,7 +107,7 @@ const Register = () => {
               <input 
                 type="text" 
                 id="name" 
-                placeholder="مثال: أحمد محمد" 
+                placeholder="enter your name" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required 

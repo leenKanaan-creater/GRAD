@@ -866,7 +866,7 @@ const PlantDashboard = () => {
                 >
                   {deletingId === (selectedUserPlant._id || selectedUserPlant.userPlant?._id)
                     ? "جاري الحذف..."
-                    : "🗑️حذف النبتة "}
+                    : "حذف النبتة "}
                 </button>
               </div>
             </div>

@@ -36,12 +36,17 @@ const Login = () => {
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
-      if (data.data) {
-        localStorage.setItem("user", JSON.stringify(data.data));
+      
+      const userData = data.data || data.user;
+      if (userData) {
+        localStorage.setItem("user", JSON.stringify(userData));
       }
 
-      // 3. التوجيه لصفحة النباتات بعد النجاح
-      navigate("/plants");
+      // 🔴 إطلاق حدث لتنبيه الـ Header وتحديث اسم المستخدم والتوكن فوراً دون الحاجة لتحديث الصفحة
+      window.dispatchEvent(new Event("storage"));
+
+      // 3. التوجيه لصفحة نباتاتي بعد النجاح
+      navigate("/dashboard");
 
     } catch (err) {
       setError(err.message || "تعذر الاتصال بالسيرفر!");
@@ -94,7 +99,7 @@ const Login = () => {
               <input
                 type="password"
                 id="password"
-                placeholder="أدخلي كلمة المرور"
+                placeholder="أدخل كلمة المرور"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -108,7 +113,7 @@ const Login = () => {
           </form>
 
           <p className="register-link-text">
-            ليس لديكِ حساب بعد؟ <Link to="/register">تسجيل حساب جديد</Link>
+            ليس لديك حساب بعد؟ <Link to="/register">تسجيل حساب جديد</Link>
           </p>
         </div>
       </div>

@@ -25,8 +25,30 @@ export const getPlantSoils = async (plantId) => {
   const response = await axios.get(`${API_BASE}/${plantId}/soils`);
   return response.data;
 };
-
 export const getPlantDiseases = async (plantId) => {
-  const response = await axios.get(`${API_BASE}/${plantId}/diseases`);
-  return response.data.data;
+  try {
+    // 1. جلب التوكين من المتصفح
+    const token = localStorage.getItem("token");
+
+    // 2. إرسال الطلب مع التوكين في الـ Headers
+    const response = await axios.get(`${API_BASE}/${plantId}/diseases`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("🔥 استجابة الأمراض بعد إضافة التوكين:", response.data);
+
+    // 3. قراءة البيانات بأي شكل يرجعه الباك إيند
+    const diseases =
+      response.data?.data?.diseases ||
+      response.data?.data ||
+      response.data?.diseases ||
+      response.data;
+
+    return Array.isArray(diseases) ? diseases : [];
+  } catch (error) {
+    console.error("خطأ في جلب أمراض النبتة:", error);
+    return [];
+  }
 };

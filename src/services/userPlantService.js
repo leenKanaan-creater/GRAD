@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = "https://graduation-project-co5p.onrender.com/api/v1";
 
-// دالة مساعدة لجلب التوكن وإرفاقه في الـ Headers
+// دالةة لجلب التوكن وإرفاقه في الـ Headers
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
   return {
