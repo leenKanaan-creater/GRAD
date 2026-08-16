@@ -164,7 +164,7 @@ const PlantDetails = () => {
 
       </div>
 
-      {/* Modal الأصناف ويحتوي على الصور */}
+      {/* الأصناف والصور */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>

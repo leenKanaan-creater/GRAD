@@ -7,23 +7,51 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Footer from "./components/Footer";
 import PlantDashboard from "./components/PlantDashboard";
-import Dashboard from "./components/Dashboard";
 import Diseases from "./components/Diseases";
+import AdminPanel from "./components/AdminPanel"; // 👈 1. استيراد لوحة التحكم
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <>
       <Header />
       <Routes>
+        {/* 🌐 صفحات عامة */}
         <Route path="/" element={<Home />} />
         <Route path="/plants" element={<Plants />} />
         <Route path="/plants/:id" element={<PlantDetails />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<PlantDashboard />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/diseases" element={<Diseases />} />
 
-        <Route path="/dashboards" element={<Dashboard />} />
+        {/* 🔒 صفحة نباتاتي (محمية) */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <PlantDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 🔒 صفحة الأمراض (محمية) */}
+        <Route
+          path="/diseases"
+          element={
+            <ProtectedRoute>
+              <Diseases />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ⚙️ لوحة تحكم المسؤول (محمية) */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminPanel />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <Footer />
     </>

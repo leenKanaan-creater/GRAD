@@ -39,7 +39,7 @@ export const getPlantDiseases = async (plantId) => {
 
     console.log("🔥 استجابة الأمراض بعد إضافة التوكين:", response.data);
 
-    // 3. قراءة البيانات بأي شكل يرجعه الباك إيند
+    
     const diseases =
       response.data?.data?.diseases ||
       response.data?.data ||
