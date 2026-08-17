@@ -11,6 +11,7 @@ const Footer = () => {
           <div>
             <h2>فلورا كير</h2>
             <p>دليلك البسيط لفهم النباتات والعناية بها بثقة.</p>
+             <p>تم الحصول على المعلومات في الموقع من مديرية الزراعة في محافظة اللاذقية</p>
           </div>
         </div>
 
@@ -26,6 +27,7 @@ const Footer = () => {
         <div className="footer-note">
           <span className="footer-note-icon" aria-hidden="true">🌱</span>
           <p>ازرع المعرفة اليوم، لتحصل على نباتات أكثر صحة غداً.</p>
+  
         </div>
       </div>
 

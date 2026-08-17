@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./AdminPanel.css"; // 👈 استيراد الـ CSS
+import "./AdminPanel.css";
 import { 
-  Users, Leaf, Bug, LayoutDashboard, LogOut, 
-  Plus, Trash2, Edit, Search, X, Loader2 
+  Users, Leaf, Bug, LayoutDashboard, 
+  Plus, Trash2, Edit, Search, X, Loader2, ImageOff
 } from "lucide-react";
 import { 
   fetchAdminData, 
@@ -11,6 +11,8 @@ import {
   updateAdminItem, 
   uploadImage 
 } from "../services/adminService";
+
+const BASE_URL = "https://graduation-project-co5p.onrender.com";
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState("plants");
@@ -32,18 +34,80 @@ const AdminPanel = () => {
   const loadData = async () => {
     setLoading(true);
     try {
-      const result = await fetchAdminData(activeTab);
-      const items = Array.isArray(result) ? result : (result.data || []);
+      const result = await fetchAdminData(`${activeTab}?limit=1000`);
+      
+      let items = [];
+
+      // 🎯 فصل جلب البيانات حسب التبويب لمنع تداخل الأمراض مع المستخدمين
+      if (activeTab === "users") {
+        items = result?.users || result?.data || (Array.isArray(result) ? result : []);
+      } else if (activeTab === "diseases") {
+        items = result?.diseases || result?.data || (Array.isArray(result) ? result : []);
+      } else {
+        items = result?.plants || result?.data || (Array.isArray(result) ? result : []);
+      }
+
       setData(items);
     } catch (err) {
       console.error("خطأ أثناء جلب البيانات:", err);
+      setData([]);
     } finally {
       setLoading(false);
     }
   };
 
+  // 🛠️ استخراج اسم العنصر / اسم المستخدم
+  const getItemName = (item) => {
+    if (!item) return "بدون اسم";
+    if (activeTab === "users") {
+      return item.username || item.name || item.email?.split("@")[0] || "مستخدم";
+    }
+    return (
+      item.common_name || 
+      item.diseaseName || 
+      item.disease_name || 
+      item.name || 
+      item.plantName || 
+      item.title || 
+      item.scientific_name ||
+      "بدون اسم"
+    );
+  };
+
+  // 🛠️ استخراج رابط الصورة الدقيق للنباتات والأمراض
+  const getImageUrl = (item) => {
+    if (!item || activeTab === "users") return null;
+
+    let raw = null;
+
+    // 1. فحص مصفوفة الصور images
+    if (Array.isArray(item.images) && item.images.length > 0) {
+      const img = item.images[0];
+      raw = typeof img === "string" ? img : (img?.url || img?.secure_url || img?.path);
+    } 
+    // 2. فحص الكائن المباشر برقم 0
+    else if (item[0]) {
+      const img = item[0];
+      raw = typeof img === "string" ? img : (img?.url || img?.secure_url || img?.path);
+    }
+
+    // 3. فحص الحقول الفردية المباشرة
+    if (!raw) {
+      raw = item.disease_image || item.diseaseImage || item.image_url || item.imageUrl || item.image || item.url;
+    }
+
+    if (!raw || typeof raw !== "string") return null;
+
+    if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("data:image")) {
+      return raw.replace("http://", "https://");
+    }
+
+    const cleanPath = raw.replace(/\\/g, "/");
+    return `${BASE_URL}${cleanPath.startsWith("/") ? "" : "/"}${cleanPath}`;
+  };
+
   const handleDelete = async (id) => {
-    if (!window.confirm("هل أنت تأكد من إجراء عملية الحذف؟")) return;
+    if (!window.confirm("هل أنت متأكد من إجراء عملية الحذف؟")) return;
     try {
       await deleteAdminItem(activeTab, id);
       setData(data.filter((item) => (item._id || item.id) !== id));
@@ -57,8 +121,8 @@ const AdminPanel = () => {
     setEditingItem(item);
     if (item) {
       setFormData({
-        name: item.name || item.username || "",
-        description: item.description || "",
+        name: getItemName(item),
+        description: item.description || item.symptoms || item.treatment || "",
         email: item.email || "",
         role: item.role || "user",
       });
@@ -73,7 +137,7 @@ const AdminPanel = () => {
     e.preventDefault();
     setFormLoading(true);
     try {
-      let imageUrl = editingItem?.image || editingItem?.imageUrl || "";
+      let imageUrl = editingItem ? getImageUrl(editingItem) : "";
 
       if (imageFile) {
         const uploadRes = await uploadImage(imageFile);
@@ -102,14 +166,14 @@ const AdminPanel = () => {
   };
 
   const filteredData = data.filter((item) => {
-    const title = item.name || item.username || item.email || "";
+    const title = getItemName(item) || item.email || "";
     return title.toLowerCase().includes(search.toLowerCase());
   });
 
   return (
     <div className="admin-container">
       
-      {/* 🟢 Sidebar */}
+      {/* Sidebar */}
       <aside className="admin-sidebar">
         <div>
           <div className="sidebar-title">
@@ -142,16 +206,9 @@ const AdminPanel = () => {
             </button>
           </nav>
         </div>
-
-        <button 
-          onClick={() => { localStorage.clear(); window.location.href = "/login"; }}
-          className="nav-button logout-btn"
-        >
-          <LogOut size={20} /> تسجيل الخروج
-        </button>
       </aside>
 
-      {/* ⚪ Main Content */}
+      {/* Main Content */}
       <main className="admin-main">
         
         <div className="admin-header">
@@ -161,7 +218,7 @@ const AdminPanel = () => {
               {activeTab === "diseases" && "سجل الأمراض والعلاجات"}
               {activeTab === "users" && "قائمة المستخدمين المسجلين"}
             </h2>
-            <p>إضافة، تعديل، وحذف البيانات بكل سهولة.</p>
+            <p>إجمالي العناصر: {filteredData.length}</p>
           </div>
 
           <button onClick={() => handleOpenModal()} className="btn-add">
@@ -207,27 +264,38 @@ const AdminPanel = () => {
                 ) : (
                   filteredData.map((item) => {
                     const itemId = item._id || item.id;
+                    const itemName = getItemName(item);
+                    const imgUrl = getImageUrl(item);
+
                     return (
                       <tr key={itemId}>
                         <td>
-                          <div className="cell-flex">
+                          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                             {activeTab !== "users" && (
-                              <div className="table-img">
-                                <img 
-                                  src={item.image || item.imageUrl || "https://via.placeholder.com/100"} 
-                                  alt="" 
-                                />
+                              <div style={{ width: "45px", height: "45px", minWidth: "45px", borderRadius: "8px", overflow: "hidden", backgroundColor: "#0f172a", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                {imgUrl ? (
+                                  <img 
+                                    src={imgUrl} 
+                                    alt={itemName} 
+                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                    onError={(e) => {
+                                      e.target.style.display = "none";
+                                    }}
+                                  />
+                                ) : (
+                                  <ImageOff size={18} color="#64748b" />
+                                )}
                               </div>
                             )}
-                            <span>{item.name || item.username || "بدون اسم"}</span>
+                            <span>{itemName}</span>
                           </div>
                         </td>
                         <td>
                           {activeTab === "users" ? (
-                            <span>{item.email}</span>
+                            <span>{item.email || "بدون بريد"}</span>
                           ) : (
                             <span className="badge">
-                              {item.category || item.type || "عام"}
+                              {item.category || item.category_name || item.type || "عام"}
                             </span>
                           )}
                         </td>
@@ -255,7 +323,7 @@ const AdminPanel = () => {
 
       </main>
 
-      {/* 🔴 Modal */}
+      {/* Modal */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-card">

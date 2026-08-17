@@ -80,14 +80,6 @@ const Home = () => {
             <span className="card-arrow">عرض التفاصيل ←</span>
           </Link>
 
-          <Link to="/soil" className="service-minimal-card">
-            <span className="card-number">02</span>
-            <span className="card-icon">🟫</span>
-            <h3>علوم التربة</h3>
-            <p>أسرار فحص وتسميد التربة لتمنح جذورك البيئة الأكثر دفئاً.</p>
-            <span className="card-arrow">عرض التفاصيل ←</span>
-          </Link>
-
           <Link to="/diseases" className="service-minimal-card">
             <span className="card-number">03</span>
             <span className="card-icon">🍂</span>
